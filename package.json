@@ -1,0 +1,27 @@
+{
+  "name": "Arrowhead",
+  "description": "A zero-JavaScript solution for moving focus with arrow keys",
+  "keywords": [
+    "focus",
+    "arrow",
+    "keys"
+  ],
+  "version": "0.1",
+  "homepage": "https://github.com/mecha/arrowhead",
+  "bugs": {
+    "url": "https://github.com/mecha/arrowhead/issues"
+  },
+  "license": "GPL-3.0-only",
+  "main": "src/arrowhead.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mecha/arrowhead.git"
+  },
+  "devDependencies": {
+    "uglify-js": "^3.17.4"
+  },
+  "scripts": {
+    "build": "mkdir -p dist && npm run-script uglify && gzip -9 -k -f dist/arrowhead.min.js > dist/arrowhead.min.js.gz",
+    "uglify": "uglifyjs -m eval -o dist/arrowhead.min.js arrowhead.js"
+  }
+}

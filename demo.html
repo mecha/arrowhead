@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>ArrowHead Demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script type="text/javascript" src="./src/arrowhead.js"></script>
+  <style>
+    body {
+      width: min-content;
+    }
+
+    [ah-layout],
+    [ah-row],
+    [ah-col] {
+      position: relative;
+      display: flex;
+      gap: 1rem;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      padding: 1.2rem 1rem 1rem;
+    }
+
+    [ah-layout]::before {
+      content: attr(ah-layout);
+    }
+
+    [ah-row]::before {
+      content: "row";
+    }
+
+    [ah-col]::before {
+      content: "col";
+    }
+
+    [ah-layout]::before,
+    [ah-row]::before,
+    [ah-col]::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 3px;
+      font-size: 10px;
+      font-family: monospace;
+    }
+
+    [ah-layout="row"],
+    [ah-row] {
+      flex-direction: row;
+      color: #c55;
+      border-color: #c55;
+    }
+
+    [ah-layout="col"],
+    [ah-col] {
+      flex-direction: column;
+      align-items: start;
+      color: #5c5;
+      border-color: #5c5;
+    }
+  </style>
+</head>
+
+<body>
+  <div ah-layout="col">
+    <div ah-layout="row">
+      <button ah-child>A1</button>
+      <button ah-child>A2</button>
+
+      <br />
+
+      <details>
+        <summary ah-child>Details</summary>
+        <div>
+          <p>Details content</p>
+        </div>
+      </details>
+
+      <button ah-child>A3</button>
+    </div>
+
+    <div ah-layout="row">
+      <button ah-child>B1</button>
+    </div>
+
+    <div ah-layout="row">
+      <button ah-child>C1</button>
+      <button ah-child>C2</button>
+    </div>
+
+    <div ah-layout="col">
+      <button ah-child>D1</button>
+      <button ah-child>D2</button>
+      <div ah-row>
+        <input type="checkbox" ah-child />
+        <button ah-child>Submit</button>
+      </div>
+      <button ah-child>D3</button>
+      <input ah-child />
+      <button ah-child>D4</button>
+      <button ah-child>D5</button>
+    </div>
+
+    <div ah-col>
+      <div ah-col>
+        <button ah-child>E1</button>
+        <button ah-child>E2</button>
+        <button ah-child>E3</button>
+      </div>
+    </div>
+
+    <div ah-col>
+      <button ah-child>E1</button>
+      <button ah-child>E2</button>
+      <button ah-child>E3</button>
+    </div>
+  </div>
+</body>
+
+</html>
