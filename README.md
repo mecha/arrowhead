@@ -101,6 +101,61 @@ Elements now marked with any Arrowhead attributes are not affected by Arrowhead.
 
 Check out the [demo](./demo.html).
 
+## Auto
+
+Arrowhead can automatically assign the `ah-item` attribute to the child elements
+of an element. This is done by adding the `ah-auto` attribute to the parent and
+providing a CSS selector string.
+
+This can be particularly useful when you do not have full control over the
+rendered HTML.
+
+```html
+...
+<div ah-auto="a, button">
+  <p>This <a href="...">link</a> will be given the ah-item attribute.</p>
+  <button>This button too!</button>
+  <input value="But not this field" />
+</div>
+...
+```
+
+This becomes:
+
+```html
+...
+<div>
+  <p>This <a href="..." ah-item>link</a> will be given the ah-item attribute.</p>
+  <button ah-item>This button too!</button>
+  <input value="But not this field" />
+</div>
+...
+```
+
+If the `ah-auto` attribute has no value or an empty one, the CSS selector
+`a, button, input, textarea, select, summary` will be used.
+
+Auto is not enabled by default. You can "enable" it by running `ArrowHead.auto()`
+when the page content is ready. This function takes the root of the tree to be
+searched for `ah-auto` attributes.
+
+```js
+document.addEventListener("DOMContentLoaded", function () {
+  ArrowHead.auto(document.body);
+});
+```
+
+If you're using [htmx], you may also want to run `auto()` on any new content that
+gets swapped into the DOM:
+
+```js
+document.addEventListener("htmx:afterSwap", function (ev) {
+  if (ev.target instanceof HTMLElement) {
+    ArrowHead.auto(ev.target);
+  }
+});
+```
+
 ## How it works
 
 Arrowhead is basically just a key listener on the `document`.

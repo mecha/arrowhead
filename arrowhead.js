@@ -16,6 +16,8 @@ const AxisDirs = {
   },
 };
 
+const DefaultAutoSelector = "a, button, input, textarea, select, summary";
+
 document.addEventListener("keydown", function(evt) {
   if (!evt.key.startsWith("Arrow")) {
     return;
@@ -228,5 +230,21 @@ const ArrowHead = {
     }
 
     return null;
+  },
+  /** @param {HTMLElement} el */
+  auto(el) {
+    const selector = el.getAttribute("ah-auto") || DefaultAutoSelector;
+
+    for (const item of el.querySelectorAll(selector)) {
+      if (!(item instanceof HTMLElement)) continue;
+      item.setAttribute("ah-item", "");
+    }
+
+    el.removeAttribute("ah-auto");
+
+    for (const child of el.querySelectorAll("[ah-auto]")) {
+      if (!(child instanceof HTMLElement)) continue;
+      this.auto(child);
+    }
   },
 };
