@@ -28,12 +28,12 @@ document.addEventListener("keydown", function(evt) {
     return;
   }
 
-  const target = ArrowHead.followKey(activeEl, evt.key);
-  if (!target) {
+  const targetEl = ArrowHead.handleKey(activeEl, evt.key);
+  if (!targetEl) {
     return;
   }
 
-  target.focus();
+  targetEl.focus();
   evt.preventDefault();
 
   if (document.activeElement !== target) {
@@ -70,30 +70,30 @@ const ArrowHead = {
     return null;
   },
   /**
-   * @param {HTMLElement} el
+   * @param {HTMLElement} currEl
    * @param {string} key
    */
-  followKey(el, key) {
-    const [layout, parent] = ArrowHead.findLayout(el);
-    if (layout === null || parent === null) {
+  handleKey(currEl, key) {
+    const [layout, parentEl] = this.findLayout(currEl);
+    if (layout === null || parentEl === null) {
       return null;
     }
 
     const direction = AxisDirs[layout][key] ?? null;
     if (direction === null) {
-      return this.followKey(parent, key);
+      return this.handleKey(parentEl, key);
     }
 
-    const target = ArrowHead.followDir(parent, el, direction);
-    if (!target) {
+    const targetEl = this.findNextItem(parentEl, currEl, direction);
+    if (!targetEl) {
       return null;
     }
 
-    if (target === "exit") {
-      return this.followKey(parent, key);
+    if (targetEl === "exit") {
+      return this.handleKey(parentEl, key);
     }
 
-    return this.focus(target, key);
+    return this.vFocus(targetEl, key);
   },
   /**
    * Searches an element's parents for an element with a "ah-layout" attribute.
@@ -101,14 +101,14 @@ const ArrowHead = {
    * @return {[Axis,HTMLElement]|[null,null]}
    */
   findLayout(el) {
-    let curr = el.parentElement;
+    let currEl = el.parentElement;
 
-    while (curr !== null) {
-      const layout = this.getLayout(curr);
+    while (currEl !== null) {
+      const layout = this.getLayout(currEl);
       if (layout !== null) {
-        return [layout, curr];
+        return [layout, currEl];
       }
-      curr = curr.parentElement;
+      currEl = currEl.parentElement;
     }
 
     return [null, null];
@@ -117,12 +117,12 @@ const ArrowHead = {
    * Searches an element's children for item elements. If the element has a
    * "ah-depth" attribute, its value controls the recursion depth. Default depth is 5.
    * @param {HTMLElement} el
-   * @param {{depth?: number, skip?: HTMLElement}=} args
+   * @param {number=} depth
+   * @param {HTMLElement=} noRecurse
    * @return {Generator<HTMLElement>}
    */
-  *findItems(el, args) {
-    args = args ?? {};
-    args.depth = args.depth ?? +(el.getAttribute("ah-depth") ?? 5);
+  *findItems(el, depth, noRecurse) {
+    depth = depth || parseInt(el.getAttribute("ah-depth") ?? "5", 10)
 
     for (const child of el.children) {
       if (!(child instanceof HTMLElement)) {
@@ -140,30 +140,30 @@ const ArrowHead = {
         continue;
       }
 
-      if (args.depth > 0 && child !== args.skip) {
-        yield* this.findItems(child, { depth: args.depth - 1 });
+      if (depth > 0 && child !== noRecurse) {
+        yield* this.findItems(child, depth - 1, noRecurse);
       }
     }
   },
   /**
    * Finds the next focusable element, if any, at a specific direction.
-   * @param {HTMLElement} parent
-   * @param {HTMLElement} curr
+   * @param {HTMLElement} parentEl
+   * @param {HTMLElement} currEl
    * @param {Dir} dir
    * @return {HTMLElement|"exit"|null}
    */
-  followDir(parent, curr, dir) {
+  findNextItem(parentEl, currEl, dir) {
     /** @type {HTMLElement | null} */
     let prev = null;
     let next = false;
 
-    let isAh = ArrowHead.isAhElem(curr);
+    let isAh = this.isAhElem(currEl);
     if (!isAh) {
-      curr.setAttribute("ah-item", "");
+      currEl.setAttribute("ah-item", "");
     }
 
     try {
-      const items = ArrowHead.findItems(parent, { skip: curr });
+      const items = this.findItems(parentEl, undefined, currEl);
 
       for (const item of items) {
         if (!(item instanceof HTMLElement)) {
@@ -173,7 +173,7 @@ const ArrowHead = {
           return item;
         }
 
-        if (item !== curr) {
+        if (item !== currEl) {
           prev = item;
           continue;
         }
@@ -197,7 +197,7 @@ const ArrowHead = {
       return null;
     } finally {
       if (!isAh) {
-        curr.removeAttribute("ah-item");
+        currEl.removeAttribute("ah-item");
       }
     }
   },
@@ -205,15 +205,15 @@ const ArrowHead = {
    * @param {HTMLElement} el
    * @param {string} key
    */
-  focus(el, key) {
+  vFocus(el, key) {
     const layout = this.getLayout(el);
 
     if (layout !== null) {
       /** @type {HTMLElement|null} */
       let target = null;
       const items = this.findItems(el);
-
       const dir = AxisDirs[layout][key] ?? Dir.FWD;
+
       if (dir === Dir.FWD) {
         for (target of items) break;
       } else {
@@ -221,7 +221,7 @@ const ArrowHead = {
       }
 
       if (target !== null) {
-        return this.focus(target, key);
+        return this.vFocus(target, key);
       }
     }
 
