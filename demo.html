@@ -5,7 +5,7 @@
   <title>ArrowHead Demo</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script type="text/javascript" src="./src/arrowhead.js"></script>
+  <script type="text/javascript" src="./arrowhead.js"></script>
   <style>
     body {
       width: min-content;
@@ -65,55 +65,62 @@
 <body>
   <div ah-layout="col">
     <div ah-layout="row">
-      <button ah-child>A1</button>
-      <button ah-child>A2</button>
+      <button ah-item>A1</button>
+      <button ah-item>A2</button>
 
       <br />
 
       <details>
-        <summary ah-child>Details</summary>
+        <summary ah-item>Details</summary>
         <div>
           <p>Details content</p>
         </div>
       </details>
 
-      <button ah-child>A3</button>
+      <button ah-item>A3</button>
     </div>
 
     <div ah-layout="row">
-      <button ah-child>B1</button>
+      <button ah-item>B1</button>
     </div>
 
-    <div ah-layout="row">
-      <button ah-child>C1</button>
-      <button ah-child>C2</button>
+    <div ah-row>
+      <div ah-layout="row">
+        <button ah-item>C1</button>
+        <button ah-item>C2</button>
+      </div>
+
+      <div ah-layout="row">
+        <button ah-item>C1</button>
+        <button ah-item>C2</button>
+      </div>
     </div>
 
     <div ah-layout="col">
-      <button ah-child>D1</button>
-      <button ah-child>D2</button>
+      <button ah-item>D1</button>
+      <button ah-item>D2</button>
       <div ah-row>
-        <input type="checkbox" ah-child />
-        <button ah-child>Submit</button>
+        <input type="checkbox" ah-item />
+        <button ah-item>Submit</button>
       </div>
-      <button ah-child>D3</button>
-      <input ah-child />
-      <button ah-child>D4</button>
-      <button ah-child>D5</button>
+      <button ah-item>D3</button>
+      <input ah-item />
+      <button ah-item>D4</button>
+      <button ah-item>D5</button>
     </div>
 
     <div ah-col>
       <div ah-col>
-        <button ah-child>E1</button>
-        <button ah-child>E2</button>
-        <button ah-child>E3</button>
+        <button ah-item>E1</button>
+        <button ah-item>E2</button>
+        <button ah-item>E3</button>
       </div>
     </div>
 
     <div ah-col>
-      <button ah-child>E1</button>
-      <button ah-child>E2</button>
-      <button ah-child>E3</button>
+      <button ah-item>E1</button>
+      <button ah-item>E2</button>
+      <button ah-item>E3</button>
     </div>
   </div>
 </body>
