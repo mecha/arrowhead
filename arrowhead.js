@@ -19,7 +19,7 @@ const AxisDirs = {
 const DefaultAutoSelector = "a, button, input, textarea, select, summary";
 
 document.addEventListener("keydown", function(evt) {
-  if (!evt.key.startsWith("Arrow")) {
+  if (!evt.key.startsWith("Arrow") || evt.shiftKey) {
     return;
   }
 
