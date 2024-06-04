@@ -58,6 +58,13 @@ const ArrowHead = {
     if (el.hasAttribute("ah-col")) {
       return Axis.COL;
     }
+    if (el.hasAttribute("ah-flex")) {
+      const flexDir = getComputedStyle(el).flexDirection.toLowerCase()
+      if (flexDir.startsWith("column")) {
+        return Axis.COL;
+      }
+      return Axis.ROW;
+    }
     return null;
   },
   /**
