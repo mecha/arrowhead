@@ -35,15 +35,6 @@ document.addEventListener("keydown", function(evt) {
 
   targetEl.focus();
   evt.preventDefault();
-
-  if (document.activeElement !== target) {
-    console.warn(
-      "[Arrowhead] Focus was not gained on element: ",
-      target,
-      "Instead, focus was gained by: ",
-      document.activeElement,
-    );
-  }
 });
 
 const ArrowHead = {
