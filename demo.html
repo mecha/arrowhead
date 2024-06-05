@@ -6,6 +6,78 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script type="text/javascript" src="./arrowhead.js"></script>
+</head>
+
+<body>
+  <div ah-layout="col">
+    <div ah-layout="row">
+      <button ah-item>A1</button>
+      <button ah-item>A2</button>
+
+      <br />
+
+      <details>
+        <summary ah-item>Details</summary>
+        <div>Lorem ipsum ...</div>
+      </details>
+
+      <button ah-item>A3</button>
+    </div>
+
+    <div ah-layout="row">
+      <input ah-item />
+    </div>
+
+    <div ah-row>
+      <div ah-layout="row">
+        <select ah-item>
+          <option>Hello</option>
+          <option>world!</option>
+        </select>
+        <input type="radio" ah-item />
+      </div>
+
+      <div ah-layout="row">
+          <input type="checkbox" ah-item />
+          <input type="range" ah-item />
+      </div>
+    </div>
+
+    <div ah-layout="col">
+      <button ah-item>D1</button>
+      <button ah-item>D2</button>
+      <div ah-row>
+        <input type="checkbox" ah-item />
+        <button ah-item>Submit</button>
+      </div>
+      <button ah-item>D3</button>
+      <input ah-item />
+      <button ah-item>D4</button>
+      <button ah-item>D5</button>
+    </div>
+
+    <div ah-col>
+      <div ah-col>
+        <button ah-item>E1</button>
+        <button ah-item>E2</button>
+        <button ah-item>E3</button>
+      </div>
+    </div>
+
+    <div id="switcher" class="row" ah-flex>
+      <button ah-item onclick="flip()">Flip</button>
+      <button ah-item onclick="flip()">Flip</button>
+      <button ah-item onclick="flip()">Flip</button>
+    </div>
+
+    <script>
+      function flip() {
+        const switcher = document.getElementById("switcher")
+        switcher.className = switcher.className === "row" ? "col" : "row"
+      }
+    </script>
+  </div>
+
   <style>
     body {
       width: min-content;
@@ -59,70 +131,17 @@
       color: #5c5;
       border-color: #5c5;
     }
+
+    .row {
+      display: flex;
+      flex-flow: row nowrap;
+    }
+
+    .col {
+      display: flex;
+      flex-flow: column nowrap;
+    }
   </style>
-</head>
-
-<body>
-  <div ah-layout="col">
-    <div ah-layout="row">
-      <button ah-item>A1</button>
-      <button ah-item>A2</button>
-
-      <br />
-
-      <details>
-        <summary ah-item>Details</summary>
-        <div>
-          <p>Details content</p>
-        </div>
-      </details>
-
-      <button ah-item>A3</button>
-    </div>
-
-    <div ah-layout="row">
-      <button ah-item>B1</button>
-    </div>
-
-    <div ah-row>
-      <div ah-layout="row">
-        <button ah-item>C1</button>
-        <button ah-item>C2</button>
-      </div>
-
-      <div ah-layout="row">
-        <button ah-item>C1</button>
-        <button ah-item>C2</button>
-      </div>
-    </div>
-
-    <div ah-layout="col">
-      <button ah-item>D1</button>
-      <button ah-item>D2</button>
-      <div ah-row>
-        <input type="checkbox" ah-item />
-        <button ah-item>Submit</button>
-      </div>
-      <button ah-item>D3</button>
-      <input ah-item />
-      <button ah-item>D4</button>
-      <button ah-item>D5</button>
-    </div>
-
-    <div ah-col>
-      <div ah-col>
-        <button ah-item>E1</button>
-        <button ah-item>E2</button>
-        <button ah-item>E3</button>
-      </div>
-    </div>
-
-    <div ah-col>
-      <button ah-item>E1</button>
-      <button ah-item>E2</button>
-      <button ah-item>E3</button>
-    </div>
-  </div>
 </body>
 
 </html>
