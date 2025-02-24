@@ -231,14 +231,16 @@ const ArrowHead = {
   },
   /** @param {HTMLElement} el */
   auto(el) {
-    const selector = el.getAttribute("ah-auto") || DefaultAutoSelector;
+    if (el.hasAttribute("ah-auto")) {
+      const selector = el.getAttribute("ah-auto") || DefaultAutoSelector;
 
-    for (const item of el.querySelectorAll(selector)) {
-      if (!(item instanceof HTMLElement)) continue;
-      item.setAttribute("ah-item", "");
+      for (const item of el.querySelectorAll(selector)) {
+        if (!(item instanceof HTMLElement)) continue;
+        item.setAttribute("ah-item", "");
+      }
+
+      el.removeAttribute("ah-auto");
     }
-
-    el.removeAttribute("ah-auto");
 
     for (const child of el.querySelectorAll("[ah-auto]")) {
       if (!(child instanceof HTMLElement)) continue;
